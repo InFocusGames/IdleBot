@@ -58,25 +58,29 @@ exports.cmd_help = function(msg,args){
 }
 
 exports.cmd_theme = function(msg,args){
-    msgtxt = ''
-    themes.getList(callback)
-    function callback(list){
-        if(args[0] != 'set'){
-            msgtxt += 'Use '+app.prefix+'theme set <theme> to set your theme\n'
-            msgtxt += '```Theme list:\n'
-            for(var k in list){
-                msgtxt += list[k]+'\n'
-            }
-            msgtxt += '```'
-            msg.reply(msgtxt)
-        }else{
-            if(list.indexOf(args[1]) != -1){
-                db.run(`UPDATE users SET theme='${args[1]}' WHERE disID=${msg.author.id}`)
-                msg.reply(`Your theme has been set to ***${args[1]}***`)
+    if(app.userspecific){
+        msgtxt = ''
+        themes.getList(callback)
+        function callback(list){
+            if(args[0] != 'set'){
+                msgtxt += 'Use '+app.prefix+'theme set <theme> to set your theme\n'
+                msgtxt += '```Theme list:\n'
+                for(var k in list){
+                    msgtxt += list[k]+'\n'
+                }
+                msgtxt += '```'
+                msg.reply(msgtxt)
             }else{
-                msg.reply(`Hm, I cant find that theme. Recheck your command.`)
+                if(list.indexOf(args[1]) != -1){
+                    db.run(`UPDATE users SET theme='${args[1]}' WHERE disID=${msg.author.id}`)
+                    msg.reply(`Your theme has been set to ***${args[1]}***`)
+                }else{
+                    msg.reply(`Hm, I cant find that theme. Recheck your command.`)
+                }
             }
         }
+    }else{
+        msg.reply('Sorry! Whoever set me up disabled theme customization!')
     }
 }
 
