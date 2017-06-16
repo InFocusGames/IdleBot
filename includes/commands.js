@@ -158,13 +158,14 @@ exports.cmd_shop = function(msg,args){
             function callback(enh,themeItems,themeUps){
                 db.all('SELECT * FROM items',callback2)
                 function callback2(err,rows){
-                    let type = '';
+                    let type = '.\n';
                     let msgtxt = '';
 
 
                     let price;
-                    msgtxt += 'Type "!shop <item number>" to purchase.'
-                    msgtxt += '```Item   Increment   Cost   Enhancement\n\n'
+                    msgtxt += 'Type "!shop <item number>" to purchase.\n\n'
+                    msgtxt += `__**${enh[0]}**__\n`
+                    msgtxt += `Item   Increment   Cost\n\n`
                     for(var a=0;a<rows.length;a++){
                         price = null;
 
@@ -180,17 +181,34 @@ exports.cmd_shop = function(msg,args){
                         }
 
                         upid = parseInt(rows[a].id)-themeItems['itemct']
+                        if(upid == 1){
+                            msgtxt += `__                                                __\n\n`
+                            msgtxt += `__**${enh[1]}**__\n`
+                            msgtxt += 'Item   Increment   Cost\n\n'
+                        }
 
                         if(rows[a].type == 'quantity'){
                             themename = themeItems['item'+rows[a].id]
-                            msgtxt += `${rows[a].id}. ${themename}  +${rows[a].value}${themeItems['denomitem']}    $${parseFloat(price).toFixed(2)}    ${enh[0]}\n\n`
+                            if(typeof themeItems['descit'+rows[a].id] != 'undefined'){
+                                themedesc = themeItems['descit'+rows[a].id]
+                                msgtxt += `${rows[a].id}. **${themename}**  +${rows[a].value}${themeItems['denomitem']}    $${parseFloat(price).toFixed(2)}\n*${themedesc}*\n\n`
+                            }else{
+                                msgtxt += `${rows[a].id}. **${themename}**  +${rows[a].value}${themeItems['denomitem']}    $${parseFloat(price).toFixed(2)}\n\n`
+                            }
+
                         }
                         if(rows[a].type == 'upgrade'){
                             themename = themeUps['upgrade'+upid]
-                            msgtxt += `${rows[a].id}. ${themename}  +$${rows[a].value}${themeItems['denomupgrade']}    $${parseFloat(price).toFixed(2)}    ${enh[1]}\n\n`
+                            if(typeof themeItems['descit'+rows[a].id] != 'undefined'){
+                                themedesc = themeUps['descup'+upid]
+                                msgtxt += `${rows[a].id}. **${themename}**  +$${rows[a].value}${themeItems['denomupgrade']}    $${parseFloat(price).toFixed(2)}\n*${themedesc}*\n\n`
+                            }else{
+                                msgtxt += `${rows[a].id}. **${themename}**  +$${rows[a].value}${themeItems['denomupgrade']}    $${parseFloat(price).toFixed(2)}\n\n`
+                            }
+
+
                         }
                     }
-                    msgtxt += "```"
                     msg.reply(msgtxt)
                 }
             }

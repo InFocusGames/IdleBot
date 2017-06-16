@@ -35,9 +35,9 @@ downloadlink=
 ;#################
 [item]
 
-; This is what is shown in the shop as what the item enhances when purchased
-enhancementitem= Increased production
-enhancementupgrade= Increased bread value
+; This is the header for the category
+headeritem= Increased production
+headerupgrade= Increased bread value
 
 ; This shows up after the increment for example setting demomitem= /second
 ; could show "+0.1/second" in the shop
@@ -55,29 +55,69 @@ denomupgrade= /loaf
 
 ; This first list is items that give you increased production
 ; Such as more bread per second
+; Descriptions, will be shown underneath the items in itallics. Should be
+; somewhat short
 item1= Oven
+descit1=
+
 item2= Brick Oven
+descit2=
+
 item3= Bakery
+descit3=
+
 item4= Farm
+descit4=
+
 item5= Bread Factory
+descit5=
+
 item6=
+descit6=
+
 item7=
+descit7=
+
 item8=
+descit8=
+
 item9=
+descit9=
+
 item10=
+descit10=
 
 ; This second list is items that increase the value of your product
 ; Such as the selling price of bread
 upgrade1= Spices
+descup1=
+
 upgrade2= Gluten Free
+descup1=
+
 upgrade3= Extra Gluten
+descup1=
+
 upgrade4= Genetically Modified
+descup1=
+
 upgrade5= French Bread
+descup1=
+
 upgrade6= Garlic Bread
+descup1=
+
 upgrade7=
+descup1=
+
 upgrade8=
+descup1=
+
 upgrade9=
+descup1=
+
 upgrade10=
+descup1=
 
 
 ;####################

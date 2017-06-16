@@ -15,7 +15,7 @@ exports.getMes = function(theme,things,callback){
 }
 
 exports.getItems = function(theme,callback){
-    enhance = [themes[theme]['items']['enhancementitem'],themes[theme]['items']['enhancementupgrade']]
+    enhance = [themes[theme]['items']['itemheader'],themes[theme]['items']['upgradeheader']]
     retItems = themes[theme]['items']
     retUps = themes[theme]['upgrades']
     callback(enhance,retItems,retUps)
@@ -70,6 +70,16 @@ exports.parseThemes = function(dirname) {
                              tmpitems.push(x)
                          }
                      }
+                     if(x.startsWith('descit')){
+                         if(theme['item'][x] != ''){
+                             themes[title]['items'][x] = theme['item'][x]
+                         }
+                     }
+                     if(x.startsWith('descup')){
+                         if(theme['item'][x] != ''){
+                             themes[title]['upgrades'][x] = theme['item'][x]
+                         }
+                     }
                      if(x.startsWith('upgrade')){
                          if(theme['item'][x] != ''){
                              themes[title]['upgrades'][x] = theme['item'][x]
@@ -77,8 +87,8 @@ exports.parseThemes = function(dirname) {
                          }
                      }
                  }
-                 themes[title]['items']['enhancementitem'] = theme.item.enhancementitem
-                 themes[title]['items']['enhancementupgrade'] = theme.item.enhancementupgrade
+                 themes[title]['items']['itemheader'] = theme.item.headeritem
+                 themes[title]['items']['upgradeheader'] = theme.item.headerupgrade
                  themes[title]['items']['upct'] = curups.length
                  themes[title]['items']['itemct'] = curitems.length
                  themes[title]['items']['denomitem'] = theme.item.denomitem
