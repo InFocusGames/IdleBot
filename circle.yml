@@ -1,0 +1,9 @@
+machine:
+  node:
+    version: 8.0.0
+
+dependencies:
+  pre:
+    - node --version
+    - npm --version
+
