@@ -1,0 +1,138 @@
+;################################################################################
+;#                     This is a template theme for IdleBot                     #
+;#   Instructions:                                                              #
+;#     - Every line beginning with a ; is a comment, and will be ignored        #
+;#     - Do not change the keys, only change the values. This will cause an     #
+;#       issue, and render the theme unusable. If you have suggestions for      #
+;#       customization options, open an issue on the github                     #
+;################################################################################
+
+;####################
+;# General settings #
+;####################
+[general]
+
+; This is what people will know your theme as, it will show up as this when a
+; user executes the theme command. Make it unique.
+title= bread
+
+; This is optional. Allows the user to get a quick description of the theme.
+; Leave blank for an empty description.
+desc=
+
+; This is optional. If you wish the bot to credit you for making this, enter
+; what you wish to be called here.
+author= Seka
+
+; Currently unused, will potentially be used to facilitate updating themes
+version= 1.0
+
+; Currently unused, will potentially be used to facilitate updating themes
+downloadlink=
+
+;#################
+;# Item settings #
+;#################
+[item]
+
+; This is what is shown in the shop as what the item enhances when purchased
+enhancementitem= Increased production
+enhancementupgrade= Increased bread value
+
+; This shows up after the increment for example setting demomitem= /second
+; could show "+0.1/second" in the shop
+denomitem= /second
+denomupgrade= /loaf
+
+; For the following lines, add as many names for items as youd like.
+; Excess names will not be used, but not having enough names will cause your
+; theme to have issues. Leaving items blank will count as not having the
+; item at all
+
+; Server owners are in control of the quantity, prices and values of items
+; These are simply the names of those items, in order of least valuable to
+; most valuable.
+
+; This first list is items that give you increased production
+; Such as more bread per second
+item1= Oven
+item2= Brick Oven
+item3= Bakery
+item4= Farm
+item5= Bread Factory
+item6=
+item7=
+item8=
+item9=
+item10=
+
+; This second list is items that increase the value of your product
+; Such as the selling price of bread
+upgrade1= Spices
+upgrade2= Gluten Free
+upgrade3= Extra Gluten
+upgrade4= Genetically Modified
+upgrade5= French Bread
+upgrade6= Garlic Bread
+upgrade7=
+upgrade8=
+upgrade9=
+upgrade10=
+
+
+;####################
+;# Message settings #
+;####################
+[message]
+
+; Enter variables inside brackets like this ${variable}
+; The variables you can use are:
+;   minutes     (How many minutes its been since the start time)
+;   seconds     (How many seconds its been since the start time)
+;   pps         (Product created per second)
+;   value       (Finished product worth per item)
+;   funds       (Current money in their stash)
+;   timebonus   (Percentage bonus awarded when product is sold)
+;   income      (Amount of money gained once sold)
+
+; All of discords markdown works in these
+; Insert \n to signify a newline
+
+; To signify a newline use ${n}
+
+; The following lines are what are shown when the user executes !stop
+; They are shown in order
+
+finishstatus= You raised your dough for ${minutes} minutes!
+
+; One of these 2 lines will show depending on if the user spent enough time to produce a quality product or not
+finishtimebad= Unfortunately you didnt raise long enough! This decreased the value of your dough by ${timebonus}%
+finishtimegood= Raising for that long increased the value of your dough by ${timebonus}%
+
+finishformula= With you currently raising enough dough for ${pps} loafs per second, and your completed bread selling at $${value} per loaf, you just gained $${income}!
+
+; Example outputted message:
+
+; You raised your dough for 13.52 minutes!
+; Unfortunately you didnt raise long enough! This decreased the value of your dough by 32.42%
+; With you currently raising enough dough for 1.00 loafs per second,
+; and your completed bread selling at $1.00 per loaf,
+; you just gained $548.01!
+
+
+; This is displayed when user executes !status
+; !!! You can not use income and timebonus variables here !!!
+checkstatus= Your bread has been baking for ${minutes} minutes\nYou make ${pps} loafs of bread per second\nEach loaf is worth ${value}\nAnd you have $${funds} in the bank
+
+; Example outputted message:
+
+; Your bread has been baking for 0.07 minutes
+; You make 1.00 loafs of bread per second
+; Each loaf is worth 1.00
+; And you have $100.00 in the bank
+
+; Displayed when a user purchases an item
+purchase= Purchased successfully! You have $${funds} remaining.
+
+; Displayed when a user tries to purchases an item, but doesnt have enough money
+failpurchase= Not enough money! You only have $${funds}.
