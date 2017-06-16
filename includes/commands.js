@@ -191,13 +191,25 @@ exports.cmd_shop = function(msg,args){
                             msgtxt += 'Item   Increment   Cost\n\n'
                         }
 
+                        symbol = themeItems['symbol']
+                        watfix = themeItems['prefix']
+
+                        if(watfix){
+                            prefix = themeItems['symbol']
+                            suffix = ''
+                        }else{
+                            suffix = themeItems['symbol']
+                            prefix = ''
+                        }
+
+
                         if(rows[a].type == 'quantity'){
                             themename = themeItems['item'+rows[a].id]
                             if(typeof themeItems['descit'+rows[a].id] != 'undefined'){
                                 themedesc = themeItems['descit'+rows[a].id]
-                                msgtxt += `${rows[a].id}. **${themename}**  +${rows[a].value}${themeItems['denomitem']}    $${parseFloat(price).toFixed(2)}\n*${themedesc}*\n\n`
+                                msgtxt += `${rows[a].id}. **${themename}**  +${rows[a].value}${themeItems['denomitem']}    ${prefix}${parseFloat(price).toFixed(2)}${suffix}\n*${themedesc}*\n\n`
                             }else{
-                                msgtxt += `${rows[a].id}. **${themename}**  +${rows[a].value}${themeItems['denomitem']}    $${parseFloat(price).toFixed(2)}\n\n`
+                                msgtxt += `${rows[a].id}. **${themename}**  +${rows[a].value}${themeItems['denomitem']}    ${prefix}${parseFloat(price).toFixed(2)}${suffix}\n\n`
                             }
 
                         }
@@ -205,9 +217,9 @@ exports.cmd_shop = function(msg,args){
                             themename = themeUps['upgrade'+upid]
                             if(typeof themeItems['descit'+rows[a].id] != 'undefined'){
                                 themedesc = themeUps['descup'+upid]
-                                msgtxt += `${rows[a].id}. **${themename}**  +$${rows[a].value}${themeItems['denomupgrade']}    $${parseFloat(price).toFixed(2)}\n*${themedesc}*\n\n`
+                                msgtxt += `${rows[a].id}. **${themename}**  +${prefix}${rows[a].value}${suffix}${themeItems['denomupgrade']}    ${prefix}${parseFloat(price).toFixed(2)}${suffix}\n*${themedesc}*\n\n`
                             }else{
-                                msgtxt += `${rows[a].id}. **${themename}**  +$${rows[a].value}${themeItems['denomupgrade']}    $${parseFloat(price).toFixed(2)}\n\n`
+                                msgtxt += `${rows[a].id}. **${themename}**  +${prefix}${rows[a].value}${suffix}${themeItems['denomupgrade']}    ${prefix}${parseFloat(price).toFixed(2)}${suffix}\n\n`
                             }
 
 
