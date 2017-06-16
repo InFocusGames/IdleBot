@@ -24,6 +24,31 @@
     "value":40,
     "type":"quantity"
   },
+  "item6":{
+    "price":65000,
+    "value":65,
+    "type":"quantity"
+  },
+  "item7":{
+    "price":330000,
+    "value":100,
+    "type":"quantity"
+  },
+  "item8":{
+    "price":1650000,
+    "value":150,
+    "type":"quantity"
+  },
+  "item9":{
+    "price":8500000,
+    "value":230,
+    "type":"quantity"
+  },
+  "item10":{
+    "price":42500000,
+    "value":350,
+    "type":"quantity"
+  },
   "upgrade1":{
     "price":15,
     "value":0.01,
@@ -36,12 +61,42 @@
   },
   "upgrade3":{
     "price":450,
-    "value":2,
+    "value":0.75,
     "type":"upgrade"
   },
   "upgrade4":{
     "price":2000,
-    "value":8,
+    "value":1.99,
+    "type":"upgrade"
+  },
+  "upgrade5":{
+    "price":10000,
+    "value":3.5,
+    "type":"upgrade"
+  },
+  "upgrade6":{
+    "price":60000,
+    "value":5.7,
+    "type":"upgrade"
+  },
+  "upgrade7":{
+    "price":301000,
+    "value":8.5,
+    "type":"upgrade"
+  },
+  "upgrade8":{
+    "price":1555000,
+    "value":11.5,
+    "type":"upgrade"
+  },
+  "upgrade9":{
+    "price":11111111,
+    "value":16.2,
+    "type":"upgrade"
+  },
+  "upgrade10":{
+    "price":56789123,
+    "value":34.56,
     "type":"upgrade"
   }
 }
