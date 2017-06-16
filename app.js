@@ -17,6 +17,18 @@ const themes = require('./includes/themes.js')
 const config = ini.parse(fs.readFileSync('./config/config.ini', 'utf-8'))
 
 const prefix = exports.prefix = config.general.commandprefix
+
+const format = config.general.format
+if(format == 'commas'){
+    exports.format = '0,0,0,0.00'
+}
+if(format == 'letters'){
+    exports.format = '0.00a'
+}
+if(format == 'scientific'){
+    exports.format = '0.000e+0'
+}
+
 const pricemult = exports.pricemult = config.mechanics.pricemult
 const basecash = exports.basecash = config.mechanics.basecash
 const baseval = exports.baseval = config.mechanics.baseval

@@ -47,7 +47,7 @@ headerupgrade= Increased bread value
 
 ; This shows up after the increment for example setting demomitem= /second
 ; could show "+0.1/second" in the shop
-denomitem= /minute
+denomitem= /second
 denomupgrade= /loaf
 
 ; For the following lines, add as many names for items as youd like.

@@ -1,6 +1,7 @@
 const app = require('../app.js')
 const db = require('./db.js')
 const themes = require('./themes.js')
+const numeral = require('numeral')
 
 var content,
 author,
@@ -96,7 +97,7 @@ exports.cmd_stop = function(msg){
     function callback(err,row){
 
         setVars(row,true,callback)
-        function callback(minutes,seconds,pps,value,funds,timebonus,income){
+        function callback(minutes,seconds,pps,ppsform,value,valueform,funds,fundsform,timebonus,income,incomeform){
             let tbinc;
 
             if(timebonus<1){
@@ -137,7 +138,10 @@ exports.cmd_status = function(msg){
 
         setVars(row,false,callback)
 
-        function callback(minutes,seconds,pps,value,funds,timebonus,income){
+        function callback(minutes,seconds,pps,ppsform,value,valueform,funds,fundsform,timebonus,income,incomeform){
+            pps = ppsform
+            value = valueform
+            funds = fundsform
             themes.getMes(row.theme,['checkstatus'],callback)
 
             function callback(things){
@@ -185,6 +189,8 @@ exports.cmd_shop = function(msg,args){
                             price = rows[a].price
                         }
 
+                        price = numFormating(price)
+
                         upid = parseInt(rows[a].id)-themeItems['itemct']
                         if(upid == 1){
                             // msgtxt2 += `__                                                __\n\n`
@@ -208,9 +214,9 @@ exports.cmd_shop = function(msg,args){
                             themename = themeItems['item'+rows[a].id]
                             if(typeof themeItems['descit'+rows[a].id] != 'undefined'){
                                 themedesc = themeItems['descit'+rows[a].id]
-                                msgtxt += `${rows[a].id}. **${themename}**  +${rows[a].value}${themeItems['denomitem']}    ${prefix}${parseFloat(price).toFixed(2)}${suffix}\n*${themedesc}*\n\n`
+                                msgtxt += `${rows[a].id}. **${themename}**  +${rows[a].value}${themeItems['denomitem']}    ${prefix}${price}${suffix}\n*${themedesc}*\n\n`
                             }else{
-                                msgtxt += `${rows[a].id}. **${themename}**  +${rows[a].value}${themeItems['denomitem']}    ${prefix}${parseFloat(price).toFixed(2)}${suffix}\n\n`
+                                msgtxt += `${rows[a].id}. **${themename}**  +${rows[a].value}${themeItems['denomitem']}    ${prefix}${price}${suffix}\n\n`
                             }
 
                         }
@@ -218,9 +224,9 @@ exports.cmd_shop = function(msg,args){
                             themename = themeUps['upgrade'+upid]
                             if(typeof themeUps['descup'+upid] != 'undefined'){
                                 themedesc = themeUps['descup'+upid]
-                                msgtxt2 += `${rows[a].id}. **${themename}**  +${prefix}${rows[a].value}${suffix}${themeItems['denomupgrade']}    ${prefix}${parseFloat(price).toFixed(2)}${suffix}\n*${themedesc}*\n\n`
+                                msgtxt2 += `${rows[a].id}. **${themename}**  +${prefix}${rows[a].value}${suffix}${themeItems['denomupgrade']}    ${prefix}${price}${suffix}\n*${themedesc}*\n\n`
                             }else{
-                                msgtxt2 += `${rows[a].id}. **${themename}**  +${prefix}${rows[a].value}${suffix}${themeItems['denomupgrade']}    ${prefix}${parseFloat(price).toFixed(2)}${suffix}\n\n`
+                                msgtxt2 += `${rows[a].id}. **${themename}**  +${prefix}${rows[a].value}${suffix}${themeItems['denomupgrade']}    ${prefix}${price}${suffix}\n\n`
                             }
 
 
@@ -241,7 +247,8 @@ exports.cmd_shop = function(msg,args){
             let theme = row.theme
 
             setVars(row,false,callback)
-            function callback(minutes,seconds,pps,value,funds,timebonus,income){
+            function callback(minutes,seconds,pps,ppsform,value,valueform,funds,fundsform,timebonus,income,incomeform){
+                funds = fundsform
                 let itemval = parseFloat(value)
                 let itemquan = parseFloat(pps)
 
@@ -313,20 +320,31 @@ exports.cmd_shop = function(msg,args){
     }
 }
 
+function numFormating(num){
+    num = parseFloat(num)
+    retNum = numeral(num).format(app.format);
+    return retNum
+}
+
 function setVars(row,spec,callback){
     minutes = ((Date.now()-row.starttime)/1000/60).toFixed(2)
     seconds = ((Date.now()-row.starttime)/1000).toFixed(2)
     pps = row.quantity.toFixed(2)
+    ppsform = numFormating(row.quantity)
     value = row.value.toFixed(2)
+    valueform = numFormating(row.value)
     funds = row.currency.toFixed(2)
+    fundsform = numFormating(row.currency)
     if(spec){
         timebonus = ((Date.now() - row.starttime)/1000/1200).toFixed(2)
         income = (pps*value*seconds*timebonus).toFixed(2)
+        incomeform = numFormating(income)
     }else{
         timebonus = '```Tsk Tsk... Whoever made your theme tried to show you sensitive information!```'
         income = '```Tsk Tsk... Whoever made your theme tried to show you sensitive information!```'
+        incomeform = 'dude plz'
     }
-    callback(minutes,seconds,pps,value,funds,timebonus,income)
+    callback(minutes,seconds,pps,ppsform,value,valueform,funds,fundsform,timebonus,income,incomeform)
 }
 
 comms = Object.getOwnPropertyNames(this);
