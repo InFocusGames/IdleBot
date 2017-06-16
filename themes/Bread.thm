@@ -22,10 +22,10 @@ desc=
 
 ; This is optional. If you wish the bot to credit you for making this, enter
 ; what you wish to be called here.
-author= Seka
+author= Seka & The Artificer
 
 ; Currently unused, will potentially be used to facilitate updating themes
-version= 1.0
+version= 2.0
 
 ; Currently unused, will potentially be used to facilitate updating themes
 downloadlink=
@@ -35,13 +35,19 @@ downloadlink=
 ;#################
 [item]
 
+; The currency symbol (or string) to use in the shop
+symbol= $
+
+; Change to false to make the symbol display at the end of the number
+prefix= true
+
 ; This is the header for the category
 headeritem= Increased production
 headerupgrade= Increased bread value
 
 ; This shows up after the increment for example setting demomitem= /second
 ; could show "+0.1/second" in the shop
-denomitem= /second
+denomitem= /minute
 denomupgrade= /loaf
 
 ; For the following lines, add as many names for items as youd like.
@@ -57,67 +63,67 @@ denomupgrade= /loaf
 ; Such as more bread per second
 ; Descriptions, will be shown underneath the items in itallics. Should be
 ; somewhat short
-item1= Oven
-descit1=
+item1= Easy Bake Oven
+descit1= Just a phase.
 
 item2= Brick Oven
-descit2=
+descit2= Technology straight from 29,000 BC.
 
-item3= Bakery
-descit3=
+item3= Gas Oven
+descit3= Is that a leak I smell?
 
-item4= Farm
-descit4=
+item4= Electric Oven
+descit4= An Industrial size electric oven.
 
-item5= Bread Factory
-descit5=
+item5= Corner Bakery
+descit5= Bakers included.
 
-item6=
-descit6=
+item6= Supermarket Bakery Department
+descit6= Who knew they sold specific departments of stores?
 
-item7=
-descit7=
+item7= Farm 2.0
+descit7= Includes everything you need to turn plants into bread.
 
-item8=
-descit8=
+item8= Wonderbread Plant
+descit8= Wheat enters, bread leaves.
 
-item9=
-descit9=
+item9= Bread Cloning Facility
+descit9= 1=2?
 
-item10=
-descit10=
+item10= Bread Country
+descit10= Buy a small country, enslave the population, and replace GDP with GBP (Gross Bread Produced).
 
 ; This second list is items that increase the value of your product
 ; Such as the selling price of bread
 upgrade1= Spices
-descup1=
+descup1= "Made with all natural herbs and spices".
 
-upgrade2= Gluten Free
-descup1=
+upgrade2= Gluten Free Wheat
+descup2= For stupid hippies and people with celiac.
 
-upgrade3= Extra Gluten
-descup1=
+upgrade3= Extra Gluten Wheat
+descup3= Convienient for people with hypercilia.
 
-upgrade4= Genetically Modified
-descup1=
+upgrade4= Genetically Modified Wheat
+descup4= 300% more wheat-y!
 
-upgrade5= French Bread
-descup1=
+upgrade5= French Employees
+descup5= They use ancient secrets to roll your bread.
 
-upgrade6= Garlic Bread
-descup1=
+upgrade6= Yeast Spore Planes
+descup6= Filling the atmosphere with yeast means that you no longer need to add it to bread.
 
-upgrade7=
-descup1=
+upgrade7= Name-brand Bread Company
+descup7= Buy out the compatition.
 
-upgrade8=
-descup1=
+upgrade8= Bread Teleporters
+descup8= Teleporting bread where it needs to go reduces transport cost.
 
-upgrade9=
-descup1=
+upgrade9= Martian Bread Colonies
+descup9= Move bread production to mars. Suckers will pay alot more for bread from mars.
 
-upgrade10=
-descup1=
+upgrade10= Garlic
+descup10= Adding this to your bread increaces its value exponentially.
 
 
 ;####################
