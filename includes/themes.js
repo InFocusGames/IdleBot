@@ -23,10 +23,12 @@ exports.getItems = function(theme,callback){
 
 exports.getList = function(callback){
     list = []
+    dlist = []
     for(var p in themes){
         list.push(p)
+        dlist.push(themes[p]['description'])
     }
-    callback(list)
+    callback(list,dlist)
 }
 
 exports.parseThemes = function(dirname) {
@@ -60,6 +62,11 @@ exports.parseThemes = function(dirname) {
                      author = theme.general.author
 
                      themes[title] = {}
+                     if(typeof desc != 'undefined'){
+                         themes[title]['description'] = desc
+                     }else{
+                         themes[title]['description'] = ''
+                     }
                      themes[title]['items'] = {}
                      themes[title]['upgrades'] = {}
                      themes[title]['messages'] = {}
