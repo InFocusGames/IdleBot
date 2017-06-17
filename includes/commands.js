@@ -255,7 +255,7 @@ exports.cmd_shop = function(msg,args){
 
             setVars(row,false,callback)
             function callback(minutes,seconds,pps,ppsform,value,valueform,funds,fundsform,timebonus,income,incomeform){
-                funds = fundsform
+
                 let itemval = parseFloat(value)
                 let itemquan = parseFloat(pps)
 
@@ -312,11 +312,11 @@ exports.cmd_shop = function(msg,args){
                                 itemquan += parseFloat(row.value)
                                 db.run(`UPDATE users SET currency=${currency}, quantity='${itemquan}', items='${itemstr}' WHERE disID=${msg.author.id}`)
                             }
-                            funds = parseFloat(currency)
-                            funds = funds.toFixed(2)
+                            funds = fundsform
                             msg.reply(eval('`'+things[0]+'\n`'))
 
                         } else {
+                            funds = fundsform
                             msg.reply(eval('`'+things[1]+'\n`'))
                         }
                     }
