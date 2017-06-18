@@ -284,6 +284,7 @@ exports.cmd_shop = function(msg,args){
                         if(funds >= price){
                             let itemstr = 'first'
                             let currency = funds - price;
+                            funds = numFormating(currency)
 
                             if(itemloc == null){
                                 quantity = 1;
@@ -312,7 +313,7 @@ exports.cmd_shop = function(msg,args){
                                 itemquan += parseFloat(row.value)
                                 db.run(`UPDATE users SET currency=${currency}, quantity='${itemquan}', items='${itemstr}' WHERE disID=${msg.author.id}`)
                             }
-                            funds = fundsform
+
                             msg.reply(eval('`'+things[0]+'\n`'))
 
                         } else {
