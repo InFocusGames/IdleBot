@@ -32,7 +32,7 @@ Where will we go from here?
 As of now I have various features planned for implementation. The following list is in no particular order, and most likely will not include every feature.
 
 * Autocleaning commands and responses (Deleting old stuff to clean the text channel)
-* Shop improvments, buy multiple items with single command
+* ~~Buy multiple items with single command~~
 * Better error handling
 * Logging
 * Leaderboard and potentially other competetive features
