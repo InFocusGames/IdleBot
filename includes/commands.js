@@ -105,6 +105,13 @@ exports.cmd_stop = function(msg){
 
         setVars(row,true,callback)
         function callback(minutes,seconds,pps,ppsform,value,valueform,funds,fundsform,timebonus,income,incomeform){
+            fundso = funds
+            incomeo = income
+            funds = fundsform
+            pps = ppsform
+            value = valueform
+            income = incomeform
+
             let tbinc;
 
             if(timebonus<1){
@@ -129,7 +136,7 @@ exports.cmd_stop = function(msg){
 
                 msg.reply(msgtxt)
 
-                gain = parseFloat(funds)+parseFloat(income)
+                gain = parseFloat(fundso)+parseFloat(incomeo)
 
                 db.run(`UPDATE users SET currency='${gain}', starttime='${Date.now()}' WHERE disID=${msg.author.id}`)
             }
@@ -179,7 +186,7 @@ exports.cmd_shop = function(msg,args){
 
 
                     let price;
-                    msgtxt += 'Type "!shop <item number>" to purchase.\n\n'
+                    msgtxt += 'Type "!shop <item number> <quantity>" to purchase.\n\n'
                     msgtxt += `__**${enh[0]}**__\n`
                     msgtxt += `Item   Increment   Cost\n\n`
                     for(var a=0;a<rows.length;a++){
@@ -354,7 +361,7 @@ function setVars(row,spec,callback){
     funds = row.currency.toFixed(2)
     fundsform = numFormating(row.currency)
     if(spec){
-        timebonus = ((Date.now() - row.starttime)/1000/1200).toFixed(2)
+        timebonus = (Math.log(((Date.now() - row.starttime)/1000/60)) / Math.LN10);
         income = (pps*value*seconds*timebonus).toFixed(2)
         incomeform = numFormating(income)
     }else{
