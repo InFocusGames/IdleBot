@@ -188,7 +188,7 @@ exports.cmd_shop = function(msg,args){
                         for(var w=0;w<items.length;w++){
                             item = items[w].split(':')[0]
                             if(parseInt(item) == parseInt(rows[a].id)){
-                                price = items[w].split(':')[2]
+                                price = rows[a].price*Math.pow(app.pricemult,parseInt(items[w].split(':')[1])+1)
                             }
                         }
 
@@ -246,6 +246,11 @@ exports.cmd_shop = function(msg,args){
         }
     } else {
         itemid = parseInt(content.split(' ')[1]);
+        itemcnt = parseInt(content.split(' ')[2])
+        if(isNaN(itemcnt)){
+            itemcnt = 1
+        }
+
         db.get(`SELECT * FROM users WHERE disID=${msg.author.id}`,callback)
         function callback(err,row){
             let itemstr = row.items.replace('first,','')
@@ -269,15 +274,20 @@ exports.cmd_shop = function(msg,args){
                     let itemid = row.id
                     for(var w=0;w<items.length;w++){
                         item = items[w].split(':')[0]
+
                         if(parseInt(item) == parseInt(row.id)){
                             price = parseFloat(items[w].split(':')[2])
+                            itemq = parseInt(items[w].split(':')[1])
                             itemloc = w;
                         }
                     }
 
                     if(itemloc == null){
                         price = row.price
+                        itemq = 0
                     }
+
+                    price = row.price*Math.pow(app.pricemult,itemq+itemcnt)
 
                     themes.getMes(theme,['purchase','failpurchase'],callback)
                     function callback(things){
@@ -287,7 +297,7 @@ exports.cmd_shop = function(msg,args){
                             funds = numFormating(currency)
 
                             if(itemloc == null){
-                                quantity = 1;
+                                quantity = itemcnt;
                                 price = price*app.pricemult
                                 itemstr += `,${itemid}:${quantity}:${price}`
 
@@ -297,7 +307,7 @@ exports.cmd_shop = function(msg,args){
 
                             } else{
                                 item = items[itemloc].split(':')
-                                quantity = parseInt(item[1])+1
+                                quantity = parseInt(item[1])+itemcnt
                                 price = parseFloat(item[2])*Math.pow(app.pricemult,quantity)
                                 itemstr += `,${itemid}:${quantity}:${price}`
                                 itemss = items.splice(itemloc, 1)
