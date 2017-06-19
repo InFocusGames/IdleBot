@@ -24,22 +24,27 @@ exports.users = function(){
 }
 
 exports.parse = function(msg){
-
+    cmds = this
     if(users.indexOf(msg.author.id) == -1){
         db.run(`INSERT INTO users VALUES ("${msg.author.id}","${msg.author.username}","${app.themedefault}",${app.basecash},${Date.now()},${app.baseprod},${app.baseval},0,0,'first')`,callback)
+    }else{
+        launch()
     }
 
     function callback(){
         console.log('User registered')
         users.push(msg.author.id)
+        launch()
     }
 
-    content = msg.content
-    comm = content.split(' ')[0].replace(app.prefix,'')
-    args = content.replace(app.prefix+comm+' ','').split(' ')
-    for(let x=0;x<comm_list.length;x++){
-        if(comm == comm_list[x]){
-            this['cmd_'+comm](msg,args)
+    function launch(){
+        content = msg.content
+        comm = content.split(' ')[0].replace(app.prefix,'')
+        args = content.replace(app.prefix+comm+' ','').split(' ')
+        for(let x=0;x<comm_list.length;x++){
+            if(comm == comm_list[x]){
+                cmds['cmd_'+comm](msg,args)
+            }
         }
     }
 }
