@@ -1,3 +1,4 @@
+'use strict';
 //Packages
 const Discord = require("discord.js");
 const client = new Discord.Client();
@@ -46,12 +47,12 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}`);
   // Will use this code to generate databases for each server, while in testing, only a single server
   // ${client.guilds.array()}
-  serverstr = `${client.guilds.keyArray()}`
-  servers = serverstr.split(',')
+  var serverstr = `${client.guilds.keyArray()}`
+  var servers = serverstr.split(',')
 
   for(var i=0;i<servers.length;i++){
       if(servers[i] === servid){
-          theserv=servers[i]
+          var theserv=servers[i]
       }
   }
 

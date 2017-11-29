@@ -1,3 +1,4 @@
+'use strict';
 const app = require('../app.js')
 const db = require('./db.js')
 const fs = require('fs')
@@ -6,24 +7,25 @@ const ini = require('ini')
 var themes = {}
 
 exports.getMes = function(theme,things,callback){
-    retThings = []
+    let retThings = {}
     for(var obj in things){
-        retThings.push(themes[theme]['messages'][things[obj]])
+        retThings[things[obj]] = themes[theme]['messages'][things[obj]];
+        // retThings.push(themes[theme]['messages'][things[obj]])
     }
 
     callback(retThings)
 }
 
 exports.getItems = function(theme,callback){
-    enhance = [themes[theme]['items']['itemheader'],themes[theme]['items']['upgradeheader']]
-    retItems = themes[theme]['items']
-    retUps = themes[theme]['upgrades']
+    let enhance = [themes[theme]['items']['itemheader'],themes[theme]['items']['upgradeheader']]
+    let retItems = themes[theme]['items']
+    let retUps = themes[theme]['upgrades']
     callback(enhance,retItems,retUps)
 }
 
 exports.getList = function(callback){
-    list = []
-    dlist = []
+    var list = []
+    var dlist = []
     for(var p in themes){
         list.push(p)
         dlist.push(themes[p]['description'])
@@ -52,16 +54,16 @@ exports.parseThemes = function(dirname) {
                 return;
             }
             filenames.forEach(function(filename) {
-                 theme = ini.parse(fs.readFileSync(dirname + filename, 'utf-8'))
+                var theme = ini.parse(fs.readFileSync(dirname + filename, 'utf-8'))
 
-                 title = theme.general.title
+                 var title = theme.general.title
                  if(title in themes){
                      console.log('Already have a theme by this name! Skipping this next one...')
                  }else{
-                     desc = theme.general.desc
-                     author = theme.general.author
+                    var desc = theme.general.desc
+                    var author = theme.general.author
 
-                     themes[title] = {}
+                    themes[title] = {}
                      if(typeof desc != 'undefined'){
                          themes[title]['description'] = desc
                      }else{
@@ -107,19 +109,19 @@ exports.parseThemes = function(dirname) {
                      themes[title]['items']['symbol'] = theme.item.symbol
                      themes[title]['items']['prefix'] = theme.item.prefix
 
-                     finishstatus = theme.message.finishstatus
-                     finishtimegood = theme.message.finishtimegood
-                     finishtimebad = theme.message.finishtimebad
-                     finishformula = theme.message.finishformula
-                     checkstatus = theme.message.checkstatus
-                     purchase = theme.message.purchase
-                     failpurchase = theme.message.failpurchase
+                    var finishstatus = theme.message.finishstatus
+                    var finishtimegood = theme.message.finishtimegood
+                    var finishtimebad = theme.message.finishtimebad
+                    var finishformula = theme.message.finishformula
+                    var checkstatus = theme.message.checkstatus
+                    var purchase = theme.message.purchase
+                    var failpurchase = theme.message.failpurchase
 
                      for(var u in theme.message){
                          themes[title]['messages'][u] = theme['message'][u]
                      }
 
-                     error = false
+                     var error = false
                      if(purchase == '' | failpurchase == '' | finishformula == '' | finishtimebad == '' | finishtimegood == '' | finishstatus == '' | checkstatus == '' | title == '' | typeof purchase == 'undefined' | typeof failpurchase == 'undefined' |typeof finishformula == 'undefined' | typeof finishtimebad == 'undefined' | typeof finishtimegood == 'undefined' | typeof finishstatus == 'undefined' | typeof checkstatus == 'undefined' | typeof title == 'undefined'){
                          console.log('Some of the messages have not been configured in theme '+title+'. Will be unable to use.')
                          error = true

@@ -1,13 +1,17 @@
-const app = require('../app.js')
-const db = require('./db.js')
-const themes = require('./themes.js')
-const numeral = require('numeral')
+'use strict';
+const app = require('../app.js');
+const db = require('./db.js');
+const themes = require('./themes.js');
+const numeral = require('numeral');
+const Discord = require('discord.js');
 
 var content,
 author,
 authorid,
 args,
-comm;
+comm,
+msgtxt,
+msgtxt2;
 
 var comm_list = [];
 var users = [];
@@ -24,7 +28,7 @@ exports.users = function(){
 }
 
 exports.parse = function(msg){
-    cmds = this
+    var cmds = this
     if(users.indexOf(msg.author.id) == -1){
         db.run(`INSERT INTO users VALUES ("${msg.author.id}","${msg.author.username}","${app.themedefault}",${app.basecash},${Date.now()},${app.baseprod},${app.baseval},0,0,'first')`,callback)
     }else{
@@ -50,38 +54,46 @@ exports.parse = function(msg){
 }
 
 exports.cmd_help = function(msg,args){
+    let mess = new Discord.RichEmbed();
     let msgtxt = '';
 
-    console.log(this['cmd_start']['helptxt'])
-
-    msgtxt += '```List of commands:\n'
+    mess.setTitle('List of commands');
+    // msgtxt += '```List of commands:\n'
     for(let x=0;x<comm_list.length;x++){
-        msgtxt += app.prefix+comm_list[x]+'\n'
+        // msgtxt += app.prefix+comm_list[x]+'\n'
+        mess.addField(app.prefix+comm_list[x],'*No help text provided*',true)
     }
     // msgtxt += '\nFor additional help on specific commands, type '+app.prefix+'help <command>```'
-    msgtxt += '```'
-    msg.reply(msgtxt)
+    // msgtxt += '```'
+    // sendMsg(msg,msgtxt,false,3)
+    sendMsg(msg,mess)
+    //    msg.reply(msgtxt)
 }
 
 exports.cmd_theme = function(msg,args){
     if(app.userspecific){
+        let mess = new Discord.RichEmbed();
         db.get(`SELECT theme FROM users WHERE disID=${msg.author.id}`,callback)
         function callback(err,row){
             msgtxt = ''
             themes.getList(callback)
             function callback(list,dlist){
                 if(args[0] != 'set'){
-                    msgtxt += `Use '${app.prefix}theme set <theme>' to set your theme\nYour current theme is **${row.theme}**\n`
-                    msgtxt += '\n__**Theme list**__\n\n'
+                    mess.setTitle(`Use '${app.prefix}theme set <theme>' to set your theme`).setDescription(`Your current theme is **${row.theme}**`);//.addField('**Theme list**','');
+                    // msgtxt += `Use '${app.prefix}theme set <theme>' to set your theme\nYour current theme is **${row.theme}**\n`
+                    // msgtxt += '\n__**Theme list**__\n\n'
                     for(var k in list){
                         if(dlist[k] != ''){
-                            msgtxt += `**${list[k]}**\n*${dlist[k]}*\n\n`
+                            // msgtxt += `**${list[k]}**\n*${dlist[k]}*\n\n`
+                            mess.addField(`**${list[k]}**`,`*${dlist[k]}*`,true)
                         }else{
-                            msgtxt += `**${list[k]}**\n\n`
+                            // msgtxt += `**${list[k]}**\n\n`
+                            mess.addField(`**${list[k]}**`,`*No description*`,true)
                         }
                     }
 
-                    msg.reply(msgtxt)
+                    // msg.reply(msgtxt)
+                    sendMsg(msg,mess)
                 }else{
                     if(list.indexOf(args[1]) != -1){
                         db.run(`UPDATE users SET theme='${args[1]}' WHERE disID=${msg.author.id}`)
@@ -97,9 +109,9 @@ exports.cmd_theme = function(msg,args){
     }
 }
 
-exports.cmd_start = function(msg){
-    msg.reply(' this command is deprecated. You automatically start earning when you cash in, and when you first execute any command')
-}
+// exports.cmd_start = function(msg){
+//     msg.reply(' this command is deprecated. You automatically start earning when you cash in, and when you first execute any command')
+// }
 
 exports.cmd_stop = function(msg){
         let now = Date.now()
@@ -110,8 +122,8 @@ exports.cmd_stop = function(msg){
 
         setVars(row,true,callback)
         function callback(minutes,seconds,pps,ppsform,value,valueform,funds,fundsform,timebonus,income,incomeform){
-            fundso = funds
-            incomeo = income
+            let fundso = funds
+            let incomeo = income
             funds = fundsform
             pps = ppsform
             value = valueform
@@ -127,21 +139,27 @@ exports.cmd_stop = function(msg){
                 tbinc = true
             }
 
-            themes.getMes(row.theme,['finishstatus','finishtimegood','finishtimebad','finishformula'],callback)
+            themes.getMes(row.theme,['finishstatus','finishtimegood','finishtimebad','finishformula','commentbad','commentgood','commentformula','commentstatus'],callback)
 
             function callback(things){
                 let msgtxt = ''
-                msgtxt += eval('`'+things[0]+'\n`')
+                let mess = new Discord.RichEmbed();
+                // msgtxt += eval('`'+things[0]+'\n`')
+                mess.addField(eval('`'+things['finishstatus']+'`'),eval('`'+things['commentstatus']+'`'));
                 if(tbinc){
-                    msgtxt += eval('`'+things[1]+'\n`')
+                    // msgtxt += eval('`'+things[1]+'\n`')
+                    mess.addField(eval('`'+things['finishtimegood']+'`'),eval('`'+things['commentgood']+'`'))
                 } else{
-                    msgtxt += eval('`'+things[2]+'\n`')
+                    // msgtxt += eval('`'+things[2]+'\n`')
+                    mess.addField(eval('`'+things['finishtimebad']+'`'),eval('`'+things['commentbad']+'`'))
                 }
-                msgtxt += eval('`'+things[3]+'`')
+                // msgtxt += eval('`'+things[3]+'`')
+                mess.addField(eval('`'+things['finishformula']+'`'),eval('`'+things['commentformula']+'`'))
 
-                msg.reply(msgtxt)
+                // msg.reply(msgtxt)
+                sendMsg(msg,mess)
 
-                gain = parseFloat(fundso)+parseFloat(incomeo)
+                let gain = parseFloat(fundso)+parseFloat(incomeo)
 
                 db.run(`UPDATE users SET currency='${gain}', starttime='${Date.now()}' WHERE disID=${msg.author.id}`)
             }
@@ -152,6 +170,7 @@ exports.cmd_stop = function(msg){
 exports.cmd_status = function(msg){
     db.get(`SELECT * FROM users WHERE disID = ${msg.author.id}`,callback)
     let msgtxt = ''
+    let mess = new Discord.RichEmbed();
 
     function callback(err,row){
 
@@ -161,11 +180,12 @@ exports.cmd_status = function(msg){
             pps = ppsform
             value = valueform
             funds = fundsform
-            themes.getMes(row.theme,['checkstatus'],callback)
+            themes.getMes(row.theme,['checkstatus','statustitle'],callback)
 
             function callback(things){
-                msgtxt = eval('`'+things[0]+'`')
-                msg.reply(msgtxt)
+                mess.addField(eval('`'+things['statustitle']+'`'),eval('`'+things['checkstatus']+'`'));
+                // msgtxt = eval('`'+things['checkstatus']+'`')
+                sendMsg(msg,mess)
             }
         }
     }
@@ -189,16 +209,23 @@ exports.cmd_shop = function(msg,args){
                     let msgtxt = '';
                     let msgtxt2 = '';
 
-
                     let price;
-                    msgtxt += 'Type "!shop <item number> <quantity>" to purchase.\n\n'
+
+                    // let mess = new Discord.RichEmbed();
+
+
+                    // mess.setTitle('Type "!shop <item number> <quantity>" to purchase.');
+                    // mess.setColor(3756054);
+
+                    // mess.addField("Item", "Blank", true).addField("Increment", "Blank", true).addField("Cost", "Blank", true).addBlankField();
+                    // msgtxt += 'Type "!shop <item number> <quantity>" to purchase.\n\n'
                     msgtxt += `__**${enh[0]}**__\n`
                     msgtxt += `Item   Increment   Cost\n\n`
                     for(var a=0;a<rows.length;a++){
                         price = null;
 
                         for(var w=0;w<items.length;w++){
-                            item = items[w].split(':')[0]
+                            let item = items[w].split(':')[0]
                             if(parseInt(item) == parseInt(rows[a].id)){
                                 price = rows[a].price*Math.pow(app.pricemult,parseInt(items[w].split(':')[1])+1)
                             }
@@ -210,15 +237,17 @@ exports.cmd_shop = function(msg,args){
 
                         price = numFormating(price)
 
-                        upid = parseInt(rows[a].id)-themeItems['itemct']
+                        let upid = parseInt(rows[a].id)-themeItems['itemct']
                         if(upid == 1){
-                            // msgtxt2 += `__                                                __\n\n`
+                            // // msgtxt2 += `__                                                __\n\n`
                             msgtxt2 += `__**${enh[1]}**__\n`
                             msgtxt2 += 'Item   Increment   Cost\n\n'
                         }
 
-                        symbol = themeItems['symbol']
-                        watfix = themeItems['prefix']
+                        let symbol = themeItems['symbol']
+                        let watfix = themeItems['prefix']
+                        let prefix,
+                        suffix;
 
                         if(watfix){
                             prefix = themeItems['symbol']
@@ -229,11 +258,14 @@ exports.cmd_shop = function(msg,args){
                         }
 
 
+                        let themename,
+                        themedesc;
                         if(rows[a].type == 'quantity'){
                             themename = themeItems['item'+rows[a].id]
                             if(typeof themeItems['descit'+rows[a].id] != 'undefined'){
                                 themedesc = themeItems['descit'+rows[a].id]
                                 msgtxt += `${rows[a].id}. **${themename}**  +${rows[a].value}${themeItems['denomitem']}    ${prefix}${price}${suffix}\n*${themedesc}*\n\n`
+                                // mess.addField(`${rows[a].id}. **${themename}**`,`*${themedesc}*`,true).addField(`+${rows[a].value}${themeItems['denomitem']}`,`**${themename}**`,true).addField(`${prefix}${price}${suffix}`,true)
                             }else{
                                 msgtxt += `${rows[a].id}. **${themename}**  +${rows[a].value}${themeItems['denomitem']}    ${prefix}${price}${suffix}\n\n`
                             }
@@ -251,8 +283,11 @@ exports.cmd_shop = function(msg,args){
 
                         }
                     }
-                    msg.reply(msgtxt)
-                    msg.reply(msgtxt2)
+                    // msg.reply(msgtxt)
+                    // msg.reply(msgtxt2)
+                    sendMsg(msg,msgtxt,true)
+                    sendMsg(msg,msgtxt2,true)
+                    // sendMsg(msg,mess)
                 }
             }
         }
@@ -352,32 +387,45 @@ exports.cmd_shop = function(msg,args){
 
 function numFormating(num){
     num = parseFloat(num)
-    retNum = numeral(num).format(app.format);
+    let retNum = numeral(num).format(app.format);
     return retNum
 }
 
 function setVars(row,spec,callback){
-    minutes = ((Date.now()-row.starttime)/1000/60).toFixed(2)
-    seconds = ((Date.now()-row.starttime)/1000).toFixed(2)
-    pps = row.quantity.toFixed(2)
-    ppsform = numFormating(row.quantity)
-    value = row.value.toFixed(2)
-    valueform = numFormating(row.value)
-    funds = row.currency.toFixed(2)
-    fundsform = numFormating(row.currency)
+    let minutes = ((Date.now()-row.starttime)/1000/60).toFixed(2)
+    let seconds = ((Date.now()-row.starttime)/1000).toFixed(2)
+    let pps = row.quantity.toFixed(2)
+    let ppsform = numFormating(row.quantity)
+    let value = row.value.toFixed(2)
+    let valueform = numFormating(row.value)
+    let funds = row.currency.toFixed(2)
+    let fundsform = numFormating(row.currency)
     if(spec){
-        timebonus = (Math.log(((Date.now() - row.starttime)/1000/60)) / Math.LN10);
-        income = (pps*value*seconds*timebonus).toFixed(2)
-        incomeform = numFormating(income)
+        var timebonus = (Math.log(((Date.now() - row.starttime)/1000/60)) / Math.log(50));
+        var income = (pps*value*seconds*timebonus).toFixed(2);
+        var incomeform = numFormating(income);
     }else{
-        timebonus = '```Tsk Tsk... Whoever made your theme tried to show you sensitive information!```'
-        income = '```Tsk Tsk... Whoever made your theme tried to show you sensitive information!```'
-        incomeform = 'dude plz'
+        var timebonus = '```Tsk Tsk... Whoever made your theme tried to show you sensitive information!```';
+        var income = '```Tsk Tsk... Whoever made your theme tried to show you sensitive information!```';
+        var incomeform = 'dude plz';
     }
+    
     callback(minutes,seconds,pps,ppsform,value,valueform,funds,fundsform,timebonus,income,incomeform)
 }
 
-comms = Object.getOwnPropertyNames(this);
+function sendMsg(msg,content,reply,timeout){
+    if(reply){
+	msg.reply(content)
+    }else{
+	msg.channel.send(content)
+    }
+    console.log(msg.content)
+    if(!isNaN(timeout)){
+	
+    }
+}
+
+let comms = Object.getOwnPropertyNames(this);
 for(var w=0;w<comms.length;w++){
     if(comms[w].startsWith('cmd_')){
         comm_list.push(comms[w].replace('cmd_',''))

@@ -17,8 +17,7 @@
 title= bread
 
 ; This is optional. Allows the user to get a quick description of the theme.
-; Leave blank for an empty description.
-desc=
+desc= 
 
 ; This is optional. If you wish the bot to credit you for making this, enter
 ; what you wish to be called here.
@@ -150,12 +149,18 @@ descup10= Adding this to your bread increaces its value exponentially.
 ; They are shown in order
 
 finishstatus= You raised your dough for ${minutes} minutes!
+commentstatus= Thats quite the raise. Well done my man.
 
 ; One of these 2 lines will show depending on if the user spent enough time to produce a quality product or not
 finishtimebad= Unfortunately you didnt raise long enough! This decreased the value of your dough by ${timebonus}%
 finishtimegood= Raising for that long increased the value of your dough by ${timebonus}%
 
+; Comment sent to user based on bad or good product
+commentbad= Eh, maybe one day you will get it. *Maybe*.
+commentgood= Well done! Your bread appreciates you.
+
 finishformula= With you currently raising enough dough for ${pps} loafs per second, and your completed bread selling at $${value} per loaf, you just gained $${income}!
+commentformula= What a profit, for a baker.
 
 ; Example outputted message:
 
@@ -168,7 +173,8 @@ finishformula= With you currently raising enough dough for ${pps} loafs per seco
 
 ; This is displayed when user executes !status
 ; !!! You can not use income and timebonus variables here !!!
-checkstatus= Your bread has been baking for ${minutes} minutes\nYou make ${pps} loafs of bread per second\nEach loaf is worth ${value}\nAnd you have $${funds} in the bank
+statustitle= __BrEaD StAtUs__
+checkstatus= Your bread has been baking for **${minutes}** minutes\nYou make **${pps}** loafs of bread per second\nEach loaf is worth **${value}**\nAnd you have **$${funds}** in the bank
 
 ; Example outputted message:
 

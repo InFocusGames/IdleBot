@@ -1,101 +1,101 @@
 {
   "item1":{
-    "price":15,
+    "price":30,
     "value":0.1,
     "type":"quantity"
   },
   "item2":{
-    "price":100,
+    "price":150,
     "value":0.5,
     "type":"quantity"
   },
   "item3":{
-    "price":500,
+    "price":750,
     "value":4,
     "type":"quantity"
   },
   "item4":{
-    "price":2500,
+    "price":3000,
     "value":10,
     "type":"quantity"
   },
   "item5":{
-    "price":13000,
+    "price":17000,
     "value":40,
     "type":"quantity"
   },
   "item6":{
-    "price":65000,
+    "price":73000,
     "value":65,
     "type":"quantity"
   },
   "item7":{
-    "price":330000,
+    "price":550000,
     "value":100,
     "type":"quantity"
   },
   "item8":{
-    "price":1650000,
+    "price":16500000,
     "value":150,
     "type":"quantity"
   },
   "item9":{
-    "price":8500000,
+    "price":850000000,
     "value":230,
     "type":"quantity"
   },
   "item10":{
-    "price":42500000,
+    "price":42500000000,
     "value":350,
     "type":"quantity"
   },
   "upgrade1":{
-    "price":15,
+    "price":25,
     "value":0.01,
     "type":"upgrade"
   },
   "upgrade2":{
-    "price":100,
+    "price":170,
     "value":0.15,
     "type":"upgrade"
   },
   "upgrade3":{
-    "price":450,
+    "price":550,
     "value":0.75,
     "type":"upgrade"
   },
   "upgrade4":{
-    "price":2000,
+    "price":2700,
     "value":1.99,
     "type":"upgrade"
   },
   "upgrade5":{
-    "price":10000,
+    "price":20000,
     "value":3.5,
     "type":"upgrade"
   },
   "upgrade6":{
-    "price":60000,
+    "price":78000,
     "value":5.7,
     "type":"upgrade"
   },
   "upgrade7":{
-    "price":301000,
+    "price":391000,
     "value":8.5,
     "type":"upgrade"
   },
   "upgrade8":{
-    "price":1555000,
+    "price":15550000,
     "value":11.5,
     "type":"upgrade"
   },
   "upgrade9":{
-    "price":11111111,
+    "price":1111111111,
     "value":16.2,
     "type":"upgrade"
   },
   "upgrade10":{
-    "price":56789123,
+    "price":56789123456,
     "value":34.56,
     "type":"upgrade"
   }
